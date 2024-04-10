@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 
+# How to use this script
+
+# Requirements: Python Tnerpreter 
+
+# Replace $x in 'List of team names with the team names you need.
+# Replace num_groups = x in ' Grouping with the number of pools you need.
+# edit group_names = ['A', 'B', 'C', 'D'] in # Output the teams in groups with numbering so it fits for your specific needs
 
 import random
 import os
 
 # List of team names
 team_names = [
-    "Heidees", "Bad Raps", "Prinz Hessinen", "Pizza Volante", "FT Würzburg",
-    "1. FC Frisbeelarrys", "Mainz Ultimate", "Square Force", "Maultaschen", "gOLDbären",
-    "Bonnsai", "Colorado", "MINT", "Air Support", "Big Fans & Friends", "Lobstars",
-    "Wurfkultur", "Nullacht Ultimate", "Skid Ultimate", "Disconnction"
+    "$1", "$2", "$3", "$4", "$5","$6", "$7", "$8", "$9", "$10","$11", "$12", "$13", "$14", "$15", "$16", "$17", "$18", "$19", "$20"
 ]
 
 # Shuffle the teams
