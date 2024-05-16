@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, simpledialog
 import random
 
 def generate_groups():
@@ -37,12 +37,27 @@ def generate_groups():
         result_text.insert(tk.END, "\n")
 
 def add_more_rows():
-    if len(team_name_entries) < 100:
-        entry = ttk.Entry(root, width=50, style='Dark.TEntry')
-        entry.grid(row=len(team_name_entries) + 1, column=1, padx=5, pady=5)
-        team_name_entries.append(entry)
-    else:
-        add_rows_button.config(state="disabled")
+    num_rows_to_add = int(simpledialog.askstring("Add Rows", "Enter the number of rows to add:"))
+    if num_rows_to_add > 0:
+        for _ in range(num_rows_to_add):
+            entry = ttk.Entry(team_frame, width=50, style='Dark.TEntry')
+            entry.grid(row=len(team_name_entries) + 1, column=1, padx=5, pady=5)
+            team_name_entries.append(entry)
+
+def add_more_teams():
+    add_window = tk.Toplevel(root)
+    add_window.title("Add More Teams")
+    add_window.geometry("400x400")
+    add_window.tk_setPalette(background='#2E2E2E', foreground='white', activeBackground='#4C4C4C', activeForeground='white')
+
+    add_team_name_entries = []
+    for i in range(32):
+        entry = ttk.Entry(add_window, width=50, style='Dark.TEntry')
+        entry.grid(row=i, column=0, padx=5, pady=5)
+        add_team_name_entries.append(entry)
+
+    add_more_rows_button = ttk.Button(add_window, text="Add More Rows", command=lambda: add_more_rows(), style='Dark.TButton')
+    add_more_rows_button.grid(row=16, column=0, padx=5, pady=5)
 
 # Create the main window
 root = tk.Tk()
@@ -54,33 +69,51 @@ root.geometry("720x320")
 # Set dark mode theme
 root.tk_setPalette(background='#2E2E2E', foreground='white', activeBackground='#4C4C4C', activeForeground='white')
 
+# Create a canvas for the team name entries
+team_canvas = tk.Canvas(root)
+team_canvas.grid(row=1, column=1)
+
+# Add a frame to the canvas to contain the team name entries
+team_frame = ttk.Frame(team_canvas)
+team_canvas.create_window((0, 0), window=team_frame, anchor="nw")
+
 # Create and place labels and entry widgets for user input
 teams_label = ttk.Label(root, text="Enter team names (one per line):", style='Dark.TLabel')
-teams_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+teams_label.grid(row=0, column=1, padx=5, pady=5, sticky="w")
 
 team_name_entries = []
 for i in range(16):
-    entry = ttk.Entry(root, width=50, style='Dark.TEntry')
-    entry.grid(row=i+1, column=1, padx=5, pady=5)
+    entry = ttk.Entry(team_frame, width=50, style='Dark.TEntry')
+    entry.grid(row=i, column=0, padx=5, pady=5)
     team_name_entries.append(entry)
 
-add_rows_button = ttk.Button(root, text="Add More Rows", command=add_more_rows, style='Dark.TButton')
-add_rows_button.grid(row=17, column=1, padx=5, pady=5)
+add_more_teams_button = ttk.Button(root, text="Add More Teams", command=add_more_teams, style='Dark.TButton')
+add_more_teams_button.grid(row=2, column=1, padx=5, pady=5)
 
 group_size_label = ttk.Label(root, text="Enter group size:", style='Dark.TLabel')
-group_size_label.grid(row=18, column=0, padx=5, pady=5, sticky="w")
+group_size_label.grid(row=3, column=0, padx=5, pady=5, sticky="w")
 
 group_size_entry = ttk.Entry(root, style='Dark.TEntry')
-group_size_entry.grid(row=18, column=1, padx=5, pady=5)
+group_size_entry.grid(row=3, column=1, padx=5, pady=5)
 
 num_groups_label = ttk.Label(root, text="Enter number of groups:", style='Dark.TLabel')
-num_groups_label.grid(row=19, column=0, padx=5, pady=5, sticky="w")
+num_groups_label.grid(row=4, column=0, padx=5, pady=5, sticky="w")
 
 num_groups_entry = ttk.Entry(root, style='Dark.TEntry')
-num_groups_entry.grid(row=19, column=1, padx=5, pady=5)
+num_groups_entry.grid(row=4, column=1, padx=5, pady=5)
 
 submit_button = ttk.Button(root, text="Generate Groups", command=generate_groups, style='Dark.TButton')
-submit_button.grid(row=20, columnspan=2, padx=5, pady=5)
+submit_button.grid(row=5, column=1, padx=5, pady=5)
+
+# Add horizontal scrollbar
+horizontal_scrollbar = ttk.Scrollbar(root, orient="horizontal", command=team_canvas.xview)
+horizontal_scrollbar.grid(row=6, column=1, sticky="ew")
+team_canvas.configure(xscrollcommand=horizontal_scrollbar.set)
+
+# Add vertical scrollbar
+vertical_scrollbar = ttk.Scrollbar(root, orient="vertical", command=team_canvas.yview)
+vertical_scrollbar.grid(row=1, column=2, sticky="ns")
+team_canvas.configure(yscrollcommand=vertical_scrollbar.set)
 
 # Start the Tkinter event loop
 root.mainloop()
