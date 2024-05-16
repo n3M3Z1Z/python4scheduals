@@ -11,4 +11,4 @@ You can also download the Result als either a .md or a .txt file.
 
 Also you can switch between the Light Theme and the Dark Theme.
 
-To run this script you will need a python interpreter, if you are running a Linux system you already have it preinstalled. If you run Windows or MacOS you can get the latest Python Version for free right here https://www.python.org/downloads/ 
+To run this script you will need a python interpreter, if you are running a Linux system you already have it preinstalled. If you run Windows or MacOS you can get the latest Python Version (Python 3.12) for free right here https://www.python.org/downloads/ 
